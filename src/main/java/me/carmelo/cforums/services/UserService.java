@@ -1,6 +1,7 @@
 package me.carmelo.cforums.services;
 
 import jakarta.transaction.Transactional;
+import me.carmelo.cforums.helpers.instantiables.TokenGenerator;
 import me.carmelo.cforums.models.user.dto.UserDTO;
 import me.carmelo.cforums.models.user.entity.User;
 import me.carmelo.cforums.models.user.repository.UserRepository;
@@ -46,8 +47,7 @@ public class UserService {
         userRepository.save(user);
 
         // Create verification token
-        String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken(token, user);
+        VerificationToken verificationToken = new VerificationToken(user);
         tokenRepository.save(verificationToken);
     }
 

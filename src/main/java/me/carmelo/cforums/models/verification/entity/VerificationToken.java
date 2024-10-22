@@ -3,6 +3,7 @@ package me.carmelo.cforums.models.verification.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.carmelo.cforums.helpers.instantiables.TokenGenerator;
 import me.carmelo.cforums.models.user.entity.User;
 
 import java.time.LocalDateTime;
@@ -27,10 +28,10 @@ public class VerificationToken {
     @Column
     private LocalDateTime expiryDate;
 
-    public VerificationToken(String token, User user) {
-        this.token = token;
+    public VerificationToken(User user) {
         this.user = user;
-        this.expiryDate = LocalDateTime.now().plusHours(4);
+        this.token = new TokenGenerator().generateToken(32);
+        this.expiryDate = LocalDateTime.now().plusMinutes(10);
     }
 
 }

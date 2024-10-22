@@ -2,7 +2,7 @@ package me.carmelo.cforums.controllers.auth;
 
 
 import jakarta.servlet.http.HttpServletRequest;
-import me.carmelo.cforums.helpers.NetworkUtils;
+import me.carmelo.cforums.helpers.utils.NetworkUtils;
 import me.carmelo.cforums.models.user.dto.UserDTO;
 import me.carmelo.cforums.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

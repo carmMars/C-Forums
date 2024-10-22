@@ -1,4 +1,4 @@
-package me.carmelo.cforums.helpers;
+package me.carmelo.cforums.helpers.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
