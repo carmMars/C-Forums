@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.carmelo.cforums.models.verification.entity.VerificationToken;
 
+import java.util.List;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
@@ -18,9 +20,8 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false, unique = true, length = 36)
-    private UUID id;
+    @Column(name = "user_id", updatable = false, nullable = false, unique = true, length = 36)
+    private String userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -31,11 +32,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private boolean enabled = false;
 
     @Column(name = "last_ip_address")
     private String lastIpAddress;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<VerificationToken> verificationTokens;
 
     @PrePersist
     protected void onCreate() {
