@@ -1,5 +1,6 @@
 package me.carmelo.cforums.services;
 
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import me.carmelo.cforums.helpers.instantiables.TokenGenerator;
 import me.carmelo.cforums.models.user.dto.UserDTO;
@@ -19,16 +20,18 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final VerificationTokenRepository tokenRepository;
+    private final EmailService emailService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, VerificationTokenRepository tokenRepository) {
+    public UserService(UserRepository userRepository, VerificationTokenRepository tokenRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
+        this.emailService = emailService;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public void registerUser(UserDTO userDTO, String ipAddress) {
+    public void registerUser(UserDTO userDTO, String ipAddress) throws MessagingException {
 
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent())
             throw new IllegalStateException("Email already exists");
@@ -49,6 +52,8 @@ public class UserService {
         // Create verification token
         VerificationToken verificationToken = new VerificationToken(user);
         tokenRepository.save(verificationToken);
+
+        emailService.sendVerificationEmail(user.getUsername(), user.getEmail(), verificationToken.getToken());
     }
 
     public boolean authenticateUser(UserDTO userDTO, String ipAddress) {
@@ -59,11 +64,19 @@ public class UserService {
             if (passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
                 user.setLastIpAddress(ipAddress);
                 userRepository.save(user);
-
                 return true;
             }
         }
 
         return false;
+    }
+
+    public void setUserEnabled(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setEnabled(true);
+            userRepository.save(user);
+        }
     }
 }
