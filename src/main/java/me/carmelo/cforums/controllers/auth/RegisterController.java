@@ -24,11 +24,10 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         try {
-            String ipAddress = NetworkUtils.getClientIpAddr(request);
-            userService.registerUser(userDTO, ipAddress);
-            return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+            userService.registerUser(userDTO, NetworkUtils.getClientIpAddr(request));
+            return ResponseEntity.ok("Registration successful. A verification email has been sent.");
         } catch (Exception e) {
-            return new ResponseEntity<>("Error registering user: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed.");
         }
     }
 }

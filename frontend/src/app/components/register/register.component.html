@@ -59,6 +59,16 @@
         <button mat-raised-button color="primary" type="submit" class="full-width">
           Register
         </button>
+
+        <!-- Success Message -->
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+
+        <!-- Optional: Error Message -->
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
       </form>
     </mat-card-content>
     <mat-card-actions class="auth-actions">

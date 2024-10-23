@@ -43,3 +43,17 @@
 .auth-actions a:hover {
   text-decoration: underline;
 }
+
+.success-message {
+  color: #4caf50; /* Green color */
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.error-message {
+  color: #f44336; /* Red color */
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}

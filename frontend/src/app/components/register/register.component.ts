@@ -1,3 +1,5 @@
+// src/app/components/register/register.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -5,7 +7,7 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, UserDTO } from '../../services/auth.service'; // Ensure UserDTO is imported
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +35,8 @@ import { RouterLink } from '@angular/router';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   hide = true;
+  successMessage: string | null = null; // Add this line
+  errorMessage: string | null = null;   // Optional: To handle registration errors
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
@@ -46,13 +50,19 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
+      const user: UserDTO = this.registerForm.value;
+      this.authService.register(user).subscribe({
         next: (response) => {
           console.log('User registered successfully');
-          // Redirect or display success message
+          this.successMessage = 'A verification email has been sent to your email. Please verify to continue your registration process.';
+          this.errorMessage = null;
+
+          this.registerForm.patchValue({ password: '' });
         },
         error: (error) => {
           console.error('Error registering user:', error);
+          this.errorMessage = 'Registration failed. Please try again.';
+          this.successMessage = null; // Reset success message if any
         },
       });
     }

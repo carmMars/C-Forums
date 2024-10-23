@@ -53,6 +53,7 @@ public class UserService {
         VerificationToken verificationToken = new VerificationToken(user);
         tokenRepository.save(verificationToken);
 
+        //send registration email
         emailService.sendVerificationEmail(user.getUsername(), user.getEmail(), verificationToken.getToken());
     }
 
@@ -61,6 +62,8 @@ public class UserService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            if(!user.isEnabled())
+                return false;
             if (passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
                 user.setLastIpAddress(ipAddress);
                 userRepository.save(user);
