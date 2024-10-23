@@ -1,13 +1,10 @@
-<!-- src/app/components/login/login.component.html -->
-
 <div class="auth-container">
   <mat-card class="auth-card">
     <mat-card-header>
-      <div mat-card-avatar class="login-avatar">
+      <div mat-card-avatar class="auth-avatar">
         <mat-icon class="avatar-icon">lock_open</mat-icon>
       </div>
       <mat-card-title>Login</mat-card-title>
-      <mat-card-subtitle>Please enter your credentials</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -32,8 +29,8 @@
             type="button"
             mat-icon-button
             matSuffix
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="hide ? 'Show password' : 'Hide password'"
             [attr.aria-pressed]="hide"
           >
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -44,7 +41,11 @@
           </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" class="full-width">
+        <button
+          mat-raised-button
+          class="full-width green-button"
+          type="submit"
+        >
           Login
         </button>
 

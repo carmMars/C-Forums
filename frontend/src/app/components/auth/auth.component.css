@@ -1,0 +1,89 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--background-gradient);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  background-color: var(--card-background);
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px var(--shadow-color);
+}
+
+.auth-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 0; /* Remove right margin */
+  margin-bottom: 16px; /* Add bottom margin for spacing */
+}
+
+.avatar-icon {
+  font-size: 24px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.auth-actions a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-actions a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.success-message {
+  color: var(--success-color);
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Green Button Styles */
+.green-button {
+  background-color: #4caf50 !important; /* Green background */
+  color: #ffffff !important;            /* White text */
+}
+
+.green-button:hover {
+  background-color: #43a047 !important; /* Darker green on hover */
+}
+
+.green-button.mat-button-ripple {
+  background-color: rgba(76, 175, 80, 0.3); /* Semi-transparent green */
+}

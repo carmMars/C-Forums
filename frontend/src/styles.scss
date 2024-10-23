@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #673AB7;
+  --secondary-color: #f59e0b;
+  --background-gradient: linear-gradient(135deg, #ffffff, #dbeafe);
+  --card-background: #ffffff;
+  --shadow-color: rgba(30, 58, 138, 0.1);
+  --error-color: #ff1744;
+  --success-color: #388e3c;
+  --text-color: #212121;
+  --link-color: #1e3a8a;
+  --link-hover-color: #1e40af;
+
+  --font-family: 'Montserrat', sans-serif;
+  --font-size-base: 16px;
+  --font-size-large: 1.25rem;
+  --font-size-small: 0.875rem;
+
+  /* Spacing */
+  --spacing-unit: 8px;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  background: var(--background-gradient);
+}
+
+button.mat-raised-button {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+mat-form-field {
+  transition: all 0.3s ease;
+}
+
+button.mat-raised-button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.mat-raised-button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+  }
+
+  .auth-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatar-icon {
+    font-size: 20px;
+  }
+}

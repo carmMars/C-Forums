@@ -1,7 +1,5 @@
-// src/app/components/login/login.component.ts
-
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -9,12 +7,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['../auth/auth.component.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -30,8 +28,8 @@ import {RouterLink} from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   hide = true;
-  loginError = false;  // Add a flag to track login error
-  errorMessage: string = ''; // Variable to hold error message
+  loginError = false;
+  errorMessage: string = '';
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
@@ -42,17 +40,21 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  togglePasswordVisibility() {
+    this.hide = !this.hide;
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login successful');
           this.loginError = false;
+          // Redirect or perform additional actions upon successful login
         },
         error: (error) => {
           this.loginError = true;
           this.errorMessage = 'Invalid credentials.';
-
           this.loginForm.patchValue({ password: '' });
         },
       });
