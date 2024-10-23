@@ -3,6 +3,7 @@ package me.carmelo.cforums.services;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import me.carmelo.cforums.helpers.instantiables.TokenGenerator;
+import me.carmelo.cforums.models.passwordchange.dto.ChangePasswordDTO;
 import me.carmelo.cforums.models.user.dto.UserDTO;
 import me.carmelo.cforums.models.user.entity.User;
 import me.carmelo.cforums.models.user.repository.UserRepository;
@@ -81,5 +82,22 @@ public class UserService {
             user.setEnabled(true);
             userRepository.save(user);
         }
+    }
+
+    public boolean changePassword(String userId, ChangePasswordDTO changePasswordDTO) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), user.getPassword())) {
+                // Set the new password
+                user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+                userRepository.save(user);
+                return true;
+            }
+        }
+
+        return false; // Return false if the user is not found or the current password is incorrect
     }
 }

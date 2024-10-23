@@ -8,27 +8,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import me.carmelo.cforums.helpers.instantiables.JwtUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 public class LoginController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         String ipAddress = NetworkUtils.getClientIpAddr(request);
         boolean isAuthenticated = userService.authenticateUser(userDTO, ipAddress);
 
         if (isAuthenticated) {
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+            String token = jwtUtil.generateToken(userDTO.getUsername()); // Generate JWT token
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Invalid credentials");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
     }
 }

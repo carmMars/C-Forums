@@ -27,4 +27,25 @@ export class AuthService {
       responseType: 'text',
     });
   }
+
+  isAuthenticated(): boolean {
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      return !!sessionStorage.getItem('authToken');
+    }
+    return false;
+  }
+
+  logout(): void {
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('authToken');
+    }
+  }
+
+  // New method to handle password change
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    const changePasswordData = { currentPassword, newPassword };
+    return this.http.post(`${this.baseUrl}/change-password`, changePasswordData, {
+      responseType: 'text',
+    });
+  }
 }

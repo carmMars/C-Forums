@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login successful');
+          sessionStorage.setItem('authToken', response.token);
           this.loginError = false;
           // Redirect or perform additional actions upon successful login
         },
